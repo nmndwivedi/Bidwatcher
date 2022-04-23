@@ -14,7 +14,7 @@ export default function Home() {
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider()
-    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, BidwatcherMarketplace.abi, provider)
+    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS_GOERLI, BidwatcherMarketplace.abi, provider)
     const data = await contract.fetchMarketItems()
 
     /*

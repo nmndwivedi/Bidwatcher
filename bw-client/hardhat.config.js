@@ -11,7 +11,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
 
   for (const account of accounts) {
-    console.log(account.address);
+    // console.log(account.address);
   }
 });
 
@@ -30,6 +30,12 @@ module.exports = {
     mumbai: {
       chainId: 80001,
       url: process.env.NEXT_PUBLIC_MUMBAI_URL || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    goerli: {
+      chainId: 5,
+      url: process.env.NEXT_PUBLIC_GOERLI_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },

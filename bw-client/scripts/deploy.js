@@ -16,13 +16,19 @@ async function main() {
   // We get the contract to deploy
 
   /* deploy the marketplace */
+  const [deployer] = await ethers.getSigners();
+
+  console.log("Deploying contracts with the account:", deployer.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
+
   const BidwatcherMarketplace = await ethers.getContractFactory(
     "BidwatcherMarketplace"
   );
   const bidwatcherMarketplace = await BidwatcherMarketplace.deploy();
-  await bidwatcherMarketplace.deployed();
+  const res = await bidwatcherMarketplace.deployed();
 
   console.log("BidwatcherMarketplace deployed to:", bidwatcherMarketplace.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 }
 
 // We recommend this pattern to be able to use async/await everywhere
