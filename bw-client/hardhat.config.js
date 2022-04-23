@@ -28,11 +28,13 @@ module.exports = {
       chainId: 1337,
     },
     mumbai: {
+      chainId: 80001,
       url: process.env.NEXT_PUBLIC_MUMBAI_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     mainnet: {
+      chainId: 137,
       url: process.env.NEXT_PUBLIC_MAINNET_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
