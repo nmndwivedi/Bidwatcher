@@ -42,7 +42,7 @@ export default async function handler(req, res) {
           );
         };
 
-        const valid = searchedToken.bidders.some(checkUsername);
+        const valid = searchedToken?.bidders.some(checkUsername);
 
         if (valid) {
           res.statusCode = 200;

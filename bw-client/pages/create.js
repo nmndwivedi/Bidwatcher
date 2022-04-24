@@ -50,28 +50,33 @@ export default function CreateItem({ provider, signer }) {
   }
 
   async function listNFTForSale() {
-    const url = await uploadToIPFS();
+    try {
+      const url = await uploadToIPFS();
 
-    if (!provider || !signer) {
-      const web3Modal = new Web3Modal();
-      const connection = await web3Modal.connect();
-      provider = new ethers.providers.Web3Provider(connection);
-      signer = provider.getSigner();
+      if (!provider || !signer) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        provider = new ethers.providers.Web3Provider(connection);
+        signer = provider.getSigner();
+      }
+
+      /* create the NFT */
+      const price = ethers.utils.parseUnits(formInput.price, "ether");
+      let contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS_GOERLI,
+        BidwatcherMarketplace.abi,
+        signer
+      );
+      let listingPrice = await contract.getListingPrice();
+      listingPrice = listingPrice.toString();
+
+      let transaction = await contract.createToken(url, price, {
+        value: listingPrice,
+      });
+      await transaction.wait();
+    } catch (error) {
+      console.log(error);
     }
-
-    /* create the NFT */
-    const price = ethers.utils.parseUnits(formInput.price, "ether");
-    let contract = new ethers.Contract(
-      process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS_GOERLI,
-      BidwatcherMarketplace.abi,
-      signer
-    );
-    let listingPrice = await contract.getListingPrice();
-    listingPrice = listingPrice.toString();
-    let transaction = await contract.createToken(url, price, {
-      value: listingPrice,
-    });
-    await transaction.wait();
 
     router.push("/");
   }

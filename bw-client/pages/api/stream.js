@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import axios from "axios";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     if (req.method === "POST") {
         const authorizationHeader = req.headers && req.headers["authorization"];
         const streamName = req.body && req.body.name;

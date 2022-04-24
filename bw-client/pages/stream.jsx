@@ -50,12 +50,22 @@ export default function MyAssets() {
     setNfts(items);
     setLoadingState("loaded");
   }
-  function listNFT(nft) {
-    router.push(`/resell?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`);
-  }
 
-  function watchNFTStream(nft) {
-    router.push(`/watch/${nft.tokenId}`);
+  async function createStream(nft) {
+    // router.push(`/api/${nft.tokenId}`);
+    try {
+        const res = await axios.post('/api/stream', {
+            name: nft.tokenId,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        console.log(res?.data);
+    } catch (e) {
+        console.log(e);
+    }
   }
 
   if (loadingState === "loaded" && !nfts.length)
@@ -66,20 +76,10 @@ export default function MyAssets() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
             <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <button onClick={()=>watchNFTStream(nft)}>
+              <button onClick={()=>createStream(nft)}>
                 <img src={nft.image} className="rounded" />
               </button>
-              <div className="p-4 bg-black">
-                <p className="text-2xl font-bold text-white">
-                  Price - {nft.price} Eth
-                </p>
-                <button
-                  className="mt-4 w-full bg-indigo-500 text-white font-bold py-2 px-12 rounded"
-                  onClick={() => listNFT(nft)}
-                >
-                  List
-                </button>
-              </div>
+              {/* <p className="h-12">{JSON.stringify(nft)}</p> */}
             </div>
           ))}
         </div>

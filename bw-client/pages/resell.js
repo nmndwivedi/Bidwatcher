@@ -13,6 +13,7 @@ export default function ResellNFT() {
   const { id, tokenURI } = router.query
   const { image, price } = formInput
 
+
   useEffect(() => {
     fetchNFT()
   }, [id])
@@ -21,6 +22,10 @@ export default function ResellNFT() {
     if (!tokenURI) return
     const meta = await axios.get(tokenURI)
     updateFormInput(state => ({ ...state, image: meta.data.image }))
+  }
+
+  function watchNFTStream(id) {
+    router.push(`/watch/${id}`);
   }
 
   async function listNFTForSale() {
@@ -51,7 +56,9 @@ export default function ResellNFT() {
         />
         {
           image && (
-            <img className="rounded mt-4" width="350" src={image} />
+            <button onClick={()=>watchNFTStream(id)}>
+              <img className="rounded mt-4" width="350" src={image} />
+            </button>
           )
         }
         <button onClick={listNFTForSale} className="font-bold mt-4 bg-indigo-500 text-white rounded p-4 shadow-lg">
