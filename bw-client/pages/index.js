@@ -5,16 +5,8 @@ import Web3Modal from 'web3modal'
 
 import BidwatcherMarketplace from '../artifacts/contracts/BidwatcherMarketplace.sol/BidwatcherMarketplace.json'
 
-import { useAccount, useConnect } from 'wagmi'
-
-
 
 export default function Home() {
-  const [{ data: connectData, error: connectError }, connect] = useConnect()
-  const [{ data: accountData }, disconnect] = useAccount({
-    fetchEns: true,
-  })
-
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
 
@@ -58,7 +50,7 @@ export default function Home() {
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    const contract = new ethers.Contract(marketplaceAddress, BidwatcherMarketplace.abi, signer)
+    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS_GOERLI, BidwatcherMarketplace.abi, signer)
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
