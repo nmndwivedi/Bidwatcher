@@ -48,11 +48,8 @@ const Navbar = ({ setProvider, setSigner, provider }) => {
         <Link href="/create">
           <a className="mr-6 text-indigo-100">Create a NFT</a>
         </Link>
-        <Link href="/create">
+        <Link href="/stream">
           <a className="mr-6 text-indigo-100">Start Streaming</a>
-        </Link>
-        <Link href="/create">
-          <a className="mr-6 text-indigo-100">Watch Stream</a>
         </Link>
       </div>
     </nav>
