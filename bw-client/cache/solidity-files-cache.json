@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/namandwivedi/Projects/hack/Bidwatcher/bw-client/contracts/BidwatcherMarketplace.sol": {
-      "lastModificationDate": 1650753390606,
-      "contentHash": "3cb4e7823dba401ea4cb244bccd5af7a",
+      "lastModificationDate": 1650767680301,
+      "contentHash": "672b83184a363b1ec9564ac938ed2acc",
       "sourceName": "contracts/BidwatcherMarketplace.sol",
       "solcConfig": {
         "version": "0.8.4",

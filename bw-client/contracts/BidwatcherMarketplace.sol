@@ -92,6 +92,12 @@ contract BidwatcherMarketplace is ERC721URIStorage {
       _itemsSold.decrement();
 
       _transfer(msg.sender, address(this), tokenId);
+
+      emit TokenListed(
+        tokenId,
+        msg.sender,
+        price
+      );
     }
 
     /* Creates the sale of a marketplace item */
@@ -109,6 +115,8 @@ contract BidwatcherMarketplace is ERC721URIStorage {
       _transfer(address(this), msg.sender, tokenId);
       payable(owner).transfer(listingPrice);
       payable(seller).transfer(msg.value);
+
+      emit TokenSold(tokenId, msg.sender);
     }
 
     /* Returns all unsold market items */
