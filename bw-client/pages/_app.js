@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import Navbar from "../components/Navbar";
 
+import React from "react";
+
 import { Provider, chain, defaultChains } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
@@ -39,11 +41,15 @@ const connectors = ({ chainId }) => {
 };
 
 function MyApp({ Component, pageProps }) {
+
+  const [provider, setProvider] = React.useState(null);
+  const [signer, setSigner] = React.useState(null);
+
   return (
     <Provider autoConnect connectors={connectors}>
       <div>
-        <Navbar />
-        <Component {...pageProps} />
+        <Navbar setSigner={setSigner} setProvider={setProvider} provider={provider}/>
+        <Component signer={signer} provider={provider} {...pageProps} />
       </div>
     </Provider>
   );

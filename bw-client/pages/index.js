@@ -18,30 +18,30 @@ export default function Home() {
     //Load from the Graph
 
     /* create a generic provider and query for unsold market items */
-    // const provider = new ethers.providers.JsonRpcProvider()
-    // const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS_GOERLI, BidwatcherMarketplace.abi, provider)
-    // const data = await contract.fetchMarketItems()
+    const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_GOERLI_URL)
+    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS_GOERLI, BidwatcherMarketplace.abi, provider)
+    const data = await contract.fetchMarketItems()
 
-    // /*
-    // *  map over items returned from smart contract and format
-    // *  them as well as fetch their token metadata
-    // */
-    // const items = await Promise.all(data.map(async i => {
-    //   const tokenUri = await contract.tokenURI(i.tokenId)
-    //   const meta = await axios.get(tokenUri)
-    //   let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-    //   let item = {
-    //     price,
-    //     tokenId: i.tokenId.toNumber(),
-    //     seller: i.seller,
-    //     owner: i.owner,
-    //     image: meta.data.image,
-    //     name: meta.data.name,
-    //     description: meta.data.description,
-    //   }
-    //   return item
-    // }))
-    // setNfts(items)
+    /*
+    *  map over items returned from smart contract and format
+    *  them as well as fetch their token metadata
+    */
+    const items = await Promise.all(data.map(async i => {
+      const tokenUri = await contract.tokenURI(i.tokenId)
+      const meta = await axios.get(tokenUri)
+      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+      let item = {
+        price,
+        tokenId: i.tokenId.toNumber(),
+        seller: i.seller,
+        owner: i.owner,
+        image: meta.data.image,
+        name: meta.data.name,
+        description: meta.data.description,
+      }
+      return item
+    }))
+    setNfts(items)
     setLoadingState('loaded')
   }
   async function buyNft(nft) {
@@ -77,7 +77,7 @@ export default function Home() {
                 </div>
                 <div className="p-4 bg-black">
                   <p className="text-2xl font-bold text-white">{nft.price} ETH</p>
-                  <button className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
+                  <button className="mt-4 w-full bg-indigo-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
                 </div>
               </div>
             ))

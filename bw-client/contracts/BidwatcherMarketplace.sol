@@ -12,10 +12,14 @@ contract BidwatcherMarketplace is ERC721URIStorage {
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
 
-    uint256 listingPrice = 0.025 ether;
+    uint256 listingPrice = 0.001 ether;
     address payable owner;
 
     mapping(uint256 => MarketItem) private idToMarketItem;
+
+    event TokenCreated(uint256 indexed tokenId, address indexed owner, string indexed uri);
+    event TokenListed(uint256 indexed tokenId, address indexed seller, uint256 indexed price);
+    event TokenSold(uint256 indexed tokenId, address indexed buyer);
 
     struct MarketItem {
       uint256 tokenId;
@@ -24,14 +28,6 @@ contract BidwatcherMarketplace is ERC721URIStorage {
       uint256 price;
       bool sold;
     }
-
-    event MarketItemCreated (
-      uint256 indexed tokenId,
-      address seller,
-      address owner,
-      uint256 price,
-      bool sold
-    );
 
     constructor() ERC721("Metaverse Tokens", "METT") {
       owner = payable(msg.sender);
@@ -56,6 +52,8 @@ contract BidwatcherMarketplace is ERC721URIStorage {
       _mint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, tokenURI);
       createMarketItem(newTokenId, price);
+
+      emit TokenCreated(newTokenId, msg.sender, tokenURI);
       return newTokenId;
     }
 
@@ -75,12 +73,11 @@ contract BidwatcherMarketplace is ERC721URIStorage {
       );
 
       _transfer(msg.sender, address(this), tokenId);
-      emit MarketItemCreated(
+
+      emit TokenListed(
         tokenId,
         msg.sender,
-        address(this),
-        price,
-        false
+        price
       );
     }
 
